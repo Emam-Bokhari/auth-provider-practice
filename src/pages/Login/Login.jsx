@@ -1,11 +1,29 @@
+import { useContext } from "react";
+import { AuthContext } from "../../AuthProvider/AuthProvider";
 
 
 const Login = () => {
+    const {signin}=useContext(AuthContext)
+
+    const handleSignin=(event)=>{
+        event.preventDefault()
+        const email=event.target.email.value 
+        const password=event.target.password.value 
+        
+        signin(email,password)
+        .then(result=>{
+            console.log(result.user);
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+
+    }
     return (
         <div  className="my-10" >
 
             <div className="w-[300px] h-[400px] border-2 border-indigo-400 rounded-sm relative" >
-                <form className="absolute top-[7%] text-center px-4">
+                <form onSubmit={handleSignin} className="absolute top-[7%] text-center px-4">
                     <h2 className="text-center text-3xl font-medium text-indigo-600" >Login</h2>
                    
                         <input className=" px-2 border-2 border-gray-400 rounded-sm w-full mt-5" type="email" name="email" placeholder="Enter your e-mail" />

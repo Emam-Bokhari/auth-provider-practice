@@ -1,8 +1,9 @@
 import { useContext } from "react";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
+import toast from "react-hot-toast";
 
 const SignUp = () => {
-    const {googleSignin} = useContext(AuthContext)
+    const {createUser,googleSignin} = useContext(AuthContext)
 
 
     const handleSignUp=(event)=>{
@@ -10,13 +11,25 @@ const SignUp = () => {
         const name=event.target.name.value 
         const email=event.target.email.value 
         const password=event.target.password.value 
-         
+    
 
+        
+        if(password.length>6){
+            return toast.error('Please make sure the password is 6 characters or long')
+        }
+
+        createUser(email,password)
+         .then(result=>{
+            console.log(result.user)
+         })
+         .catch(error=>{
+            console.log(error)
+         })
     }
 
 
-    const handleGoogleSignin=()=>{
-        googleSignin()
+    const handleSocialSignin=(media)=>{
+        media()
         .then(result=>{
             console.log(result.user);
         })
@@ -49,8 +62,8 @@ const SignUp = () => {
                             </div>
 
                             <div className="space-x-4 mt-2" >
-                                <span onClick={handleGoogleSignin} className="text-indigo-500 font-medium" >Google</span>
-                                <span className="text-indigo-500 font-medium" >Facebook</span>
+                    <button onClick={()=>handleSocialSignin(googleSignin)} className="text-indigo-500 font-medium" >Google</button>
+                    <button className="text-indigo-500 font-medium" >Facebook</button>
                             </div>
 
                         </div>
