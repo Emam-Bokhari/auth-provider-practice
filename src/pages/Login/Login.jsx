@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
 
 
+
 const Login = () => {
     const {signin}=useContext(AuthContext)
 
@@ -13,6 +14,7 @@ const Login = () => {
         signin(email,password)
         .then(result=>{
             console.log(result.user);
+            
         })
         .catch(error=>{
             console.log(error);

@@ -4,6 +4,7 @@ import MainLayout from "../layout/MainLayout";
 import Login from './../pages/Login/Login';
 import SignUp from './../pages/SignUp/SignUp';
 import Products from "../pages/Products/Products";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const Router = createBrowserRouter([
     {
@@ -24,7 +25,7 @@ const Router = createBrowserRouter([
             },
             {
                 path: "/products",
-                element: <Products />
+                element: <PrivateRoute><Products /></PrivateRoute>
             }
         ]
     }

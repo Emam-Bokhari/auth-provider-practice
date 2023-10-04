@@ -1,17 +1,20 @@
-import moment from "moment";
-import Marquee from "react-fast-marquee";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import 'keen-slider/keen-slider.min.css';
+import { useKeenSlider } from 'keen-slider/react';
+import {AiOutlineArrowLeft} from "react-icons/ai"
+import {AiOutlineArrowRight} from "react-icons/ai"
+
+
 
 const Home = () => {
+    const [sliderRef, instanceRef] = useKeenSlider();
     const [time, setTime] = useState(new Date());
 
     useEffect(() => {
-        // প্রতি সেকেন্ডে সময় আপডেট করা
         const interval = setInterval(() => {
             setTime(new Date());
         }, 1000);
 
-        // কান্সল করে ইন্টারভাল স্থগিত করা
         return () => clearInterval(interval);
     }, []);
 
@@ -22,16 +25,48 @@ const Home = () => {
         hour12: true,
     });
 
+    const goToPreviousSlide = () => {
+        instanceRef.current.prev();
+    };
+
+    const goToNextSlide = () => {
+        instanceRef.current.next();
+    };
+
+    useEffect(() => {
+        const autoSlideChangeInterval = setInterval(() => {
+            if (instanceRef.current) {
+                instanceRef.current.next();
+            }
+        }, 1000);
+
+        return () => clearInterval(autoSlideChangeInterval);
+    }, [instanceRef]);
+
+
     return (
         <div className="my-10">
             <h2>Home page</h2>
-            {moment().format("MMM-D-YYYY,dddd, ")}
             {formattedTime}
 
-            <div className="my-10" >
-                <Marquee speed={80} >
-                    I can be a React component, multiple React components, or just some text.
-                </Marquee>
+            <div className="my-10">
+                <div ref={sliderRef} className="keen-slider">
+                    <div className="keen-slider__slide">
+                        <img className="w-full h-[500px]" src="https://picsum.photos/id/1/200/300" alt="" />
+                    </div>
+                    <div className="keen-slider__slide">
+                        <img className="w-full h-[500px]" src="https://picsum.photos/id/2/200/300" alt="" />
+                    </div>
+                    <div className="keen-slider__slide">
+                        <img className="w-full h-[500px]" src="https://picsum.photos/id/3/200/300" alt="" />
+                    </div>
+                </div>
+                <button onClick={goToPreviousSlide}>
+                    <AiOutlineArrowLeft />
+                </button>
+                <button onClick={goToNextSlide}>
+                    <AiOutlineArrowRight />
+                </button>
             </div>
         </div>
     );
