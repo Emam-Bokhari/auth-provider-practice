@@ -4,17 +4,17 @@ import { Link, Outlet } from "react-router-dom";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 
 const MainLayout = () => {
-const {logout,user}=useContext(AuthContext)
-    const handleLogout=()=>{
+    const { logout, user } = useContext(AuthContext)
+    const handleLogout = () => {
         logout()
-        .then(result=>{
-            console.log(result);
-        })
-        .catch(error=>{
-            console.log(error);
-        })
+            .then(result => {
+                console.log(result);
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
-  
+
 
     return (
         <div>
@@ -29,18 +29,20 @@ const {logout,user}=useContext(AuthContext)
                             <Link to="/products" >Products</Link>
                             <Link to="/login" >Login</Link>
                             <Link to="/signUp" >SignUp</Link>
+                            
+                            {user && <Link to="/profile" >Profile</Link>}
                         </ul>
                     </nav>
 
-                    
-                    {user?<div>
+
+                    {user ? <div>
                         <button onClick={handleLogout} className="bg-gray-300 px-3 py-1 rounded-md font-medium text-xl" >Logout</button>
                     </div>
-                    :
-                    <div>
-                        <button className="bg-gray-300 px-3 py-1 rounded-md font-medium text-xl" >Login</button>
-                    </div>}
-                    
+                        :
+                        <div>
+                            <button className="bg-gray-300 px-3 py-1 rounded-md font-medium text-xl" >Login</button>
+                        </div>}
+
 
 
 

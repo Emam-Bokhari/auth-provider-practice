@@ -1,41 +1,44 @@
 import { useContext } from "react";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-    const {createUser,googleSignin} = useContext(AuthContext)
+    const { createUser, googleSignin, githubSignin } = useContext(AuthContext)
+    const navigate=useNavigate()
 
-
-    const handleSignUp=(event)=>{
+    const handleSignUp = (event) => {
         event.preventDefault()
-        const name=event.target.name.value 
-        const email=event.target.email.value 
-        const password=event.target.password.value 
-    
+        const name = event.target.name.value
+        const email = event.target.email.value
+        const password = event.target.password.value
 
-        
-        if(password.length>6){
+
+
+        if (password.length > 6) {
             return toast.error('Please make sure the password is 6 characters or long')
         }
 
-        createUser(email,password)
-         .then(result=>{
-            console.log(result.user)
-         })
-         .catch(error=>{
-            console.log(error)
-         })
+        createUser(email, password)
+            .then(result => {
+                console.log(result.user)
+                navigate("/")
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
 
-    const handleSocialSignin=(media)=>{
+    const handleSocialSignin = (media) => {
         media()
-        .then(result=>{
-            console.log(result.user);
-        })
-        .catch(error=>{
-            console.log(error);
-        })
+            .then(result => {
+                console.log(result.user);
+                navigate("/")
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
     return (
         <div className="my-10" >
@@ -62,8 +65,8 @@ const SignUp = () => {
                             </div>
 
                             <div className="space-x-4 mt-2" >
-                    <button onClick={()=>handleSocialSignin(googleSignin)} className="text-indigo-500 font-medium" >Google</button>
-                    <button className="text-indigo-500 font-medium" >Facebook</button>
+                                <button onClick={() => handleSocialSignin(googleSignin)} className="text-indigo-500 font-medium" >Google</button>
+                                <button onClick={()=>handleSocialSignin(githubSignin)} className="text-indigo-500 font-medium" >Github</button>
                             </div>
 
                         </div>
